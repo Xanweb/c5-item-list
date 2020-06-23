@@ -24,6 +24,16 @@ abstract class ItemListBlockController extends CoreBlockController
     protected $items;
 
     /**
+     * @var Connection
+     */
+    private $connection;
+
+    /**
+     * @var ExpensiveCache
+     */
+    private $cache;
+
+    /**
      * Return Items table name.
      */
     abstract protected function getItemListTable(): string;
@@ -322,25 +332,21 @@ abstract class ItemListBlockController extends CoreBlockController
 
     private function database(): Connection
     {
-        static $dbConnection;
-
-        if (!$dbConnection) {
+        if (!$this->connection) {
             $app = $this->app ?? Application::getFacadeApplication();
-            $dbConnection = $app->make('database/connection');
+            $this->connection = $app->make('database/connection');
         }
 
-        return $dbConnection;
+        return $this->connection;
     }
 
     private function cache(): ExpensiveCache
     {
-        static $cache;
-
-        if (!$cache) {
+        if (!$this->cache) {
             $app = $this->app ?? Application::getFacadeApplication();
-            $cache = $app->make('cache/expensive');
+            $this->cache = $app->make('cache/expensive');
         }
 
-        return $cache;
+        return $this->cache;
     }
 }

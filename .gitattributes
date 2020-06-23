@@ -4,4 +4,3 @@
 
 /build export-ignore
 /.* export-ignore
-/README.md export-ignore
