@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.2",
-        "xanweb/ext-asset": "^1.0"
+        "xanweb/c5-ext-asset": "^1.0"
     },
     "autoload": {
         "psr-4": {
