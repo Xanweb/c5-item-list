@@ -296,7 +296,7 @@ export default class XanwebItemList {
 }
 
 // jQuery Plugin
-$.fn.xanItemList = function (options) {
+$.fn.xwItemList = function (options) {
     return $.each($(this), function (i, obj) {
         new XanwebItemList($(this), options)
     })
