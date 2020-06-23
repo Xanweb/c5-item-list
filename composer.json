@@ -12,10 +12,7 @@
         "psr-4": {
             "Xanweb\\ItemList\\": "src/",
             "Xanweb\\ItemList\\Controller\\": "controllers/"
-        },
-        "files": [
-            "index.php"
-        ]
+        }
     },
     "support": {
         "source": "https://github.com/xanweb/c5-item-list"
