@@ -1,0 +1,112 @@
+.ccm-ui {
+  .ccm-block-edit-container {
+    padding-bottom: 15px;
+    position: relative;
+
+    fieldset {
+      margin-bottom: 10px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .cke_editable {
+      padding: 5px 9px;
+    }
+
+    input[type="text"], textarea {
+      display: block;
+      width: 100%;
+    }
+
+    .ccm-item-list {
+      padding-bottom: 30px;
+
+      .ccm-item-entry {
+        position: relative;
+      }
+
+      .panel-heading {
+        padding: 10px 15px 4px 15px;
+        margin-left: -15px;
+        margin-right: -15px;
+        cursor: pointer;
+        background: #d9edf7;
+        border-bottom: 1px solid #e3e3e3;
+        color: #31708f;
+
+        label {
+          padding-top: 3px;
+        }
+
+        .drag-handle {
+          cursor: move !important;
+        }
+
+        .btn-delete-item i {
+          margin-top: 13px;
+        }
+
+        .btn-group-xs > .btn-delete-item {
+          position: initial;
+        }
+      }
+
+      .panel-body {
+        width: 100%;
+        padding: 10px 0;
+
+        .form-group-sm {
+          margin-bottom: 15px;
+        }
+      }
+
+      .well {
+        padding: 0 15px;
+        margin-left: 0;
+        margin-right: 0;
+        background: #fff;
+      }
+
+      .btn-delete-item {
+        position: absolute;
+        right: 15px;
+      }
+    }
+
+    .btn-success {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.ui-dialog.ui-widget {
+  div.floating-block-actions {
+    display: none;
+    width: 100%;
+    background: white;
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 17px;
+    padding: 15px 3.5% 15px 25px;
+    z-index: 150;
+    box-shadow: -9px -2px 50px -5px rgba(5,5,5,0.1);
+    opacity: 0.9;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &.has-floating-block-actions {
+    .ui-dialog-content.ui-widget-content {
+      margin-bottom: 70px;
+    }
+
+    div.floating-block-actions {
+      display: block;
+    }
+
+    .ccm-item-list {
+      padding-bottom: 0;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+$item-list-class: 'xw-item-list' !default;
+
+.ccm-ui {
+  .#{$item-list-class} {
+    $this: &;
+    padding-bottom: 15px;
+    position: relative;
+
+    fieldset {
+      margin-bottom: 10px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .cke_editable {
+      padding: 5px 9px;
+    }
+
+    input[type="text"], textarea {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+.ui-dialog.ui-widget {
+  div.floating-block-actions {
+    display: none;
+    width: 100%;
+    background: white;
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 17px;
+    padding: 15px 3.5% 15px 25px;
+    z-index: 150;
+    box-shadow: -9px -2px 50px -5px rgba(5,5,5,0.1);
+    opacity: 0.9;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &.has-floating-block-actions {
+    .ui-dialog-content.ui-widget-content {
+      margin-bottom: 70px;
+    }
+
+    div.floating-block-actions {
+      display: block;
+    }
+
+    .#{$item-list-class}__items {
+      padding-bottom: 0;
+    }
+  }
+}

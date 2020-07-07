@@ -1,32 +1,46 @@
 /* global $, xanweb, _ */
-export default class XanwebItemList {
+import Alert from '../alert'
+
+const defaults = {
+    i18n: {
+        confirm: 'Are you sure?',
+        maxItemsExceeded: 'Max items exceeded, You can not add any more items.',
+        pageNotFound: 'Page not found'
+    },
+    editor: {
+        initRichTextEditor: editors => {},
+        destroyRichTextEditor: editor => {}
+    },
+    maxItemsCount: 100,
+    classes: {
+       wrapper: 'xw-item-list',
+       items: 'xw-item-list__items',
+       item: 'xw-item-list__item',
+       item_expander: 'xw-item-list__item-expander',
+       add_item_button: 'xw-item-list__add-item',
+       edit_item_button: 'xw-item-list__edit-item',
+       remove_item_button: 'xw-item-list__remove-item'
+    },
+    templateIdentifierPrefix: 'itemTemplate'
+}
+
+export default class ItemList {
     /**
-     * Construct XanwebItemList.
+     * Construct ItemList.
      *
      * @param  {Object} $element
      * @param  {Object} options
      */
     constructor ($element, options = {}) {
-        const my = this,
-            xwDefaults = $.extend({
-                i18n: {
-                    confirm: 'Are you sure?',
-                    maxItemsExceeded: 'Max items exceeded, You can not add any more items.',
-                    pageNotFound: 'Page not found'
-                },
-                editor: {
-                    initRichTextEditor: editors => {},
-                    destroyRichTextEditor: editor => {}
-                }
-            }, xanweb || {})
-
+        const my = this, itemListDefaults = $.extend(defaults, xanweb || {})
         my.options = $.extend({
-            i18n: xwDefaults.i18n,
+            classes: itemListDefaults.classes,
+            maxItemsCount: itemListDefaults.maxItemsCount,
+            templateIdentifierPrefix: itemListDefaults.templateIdentifierPrefix,
+            destroyRichTextEditor: itemListDefaults.editor.destroyRichTextEditor,
+            initRichTextEditor: itemListDefaults.editor.initRichTextEditor,
+            i18n: itemListDefaults.i18n,
             items: [],
-            maxItemsCount: 100,
-            initRichTextEditor: xwDefaults.editor.initRichTextEditor,
-            destroyRichTextEditor: xwDefaults.editor.destroyRichTextEditor,
-            editBtn: null,
             onSelectPage: ($el, response) => {},
             onSelectFile: ($el, response) => {},
             extraItemLoad: ($newItem, item) => {}
@@ -40,27 +54,22 @@ export default class XanwebItemList {
             console.error('onSelectFile requires $.fn.xanFileSelector which is undefined!')
         }
 
-        my.$element = $element.addClass('ccm-block-edit-container')
-        my.$container = $element.find('.ccm-item-list')
-        my._templateItem = _.template($(`#itemTemplate${options.bID}`).html())
+        my.$element = $element.addClass(my.options.classes.wrapper)
+        my.$container = $element.find(`.${my.options.classes.items}`)
+        my._templateItem = _.template($(`#${my.options.templateIdentifierPrefix}${options.bID}`).html())
         my.loadItems()
-        my.setupItemHeaderAction()
+        my.setupItemDetailsExpanderAction()
         my.setupDeleteItemAction()
         my.setupAddItemAction()
         my.setupFloatingActionsBar()
+        my.setupSort()
 
-        // Setup Items Sort
-        my.$container.sortable({
-            handle: '.panel-heading',
-            update: function(){
-                my.doSortCount()
-            }
-        })
-
-        // Clean Exit
+        // Make sure to destroy RichTextEditors on dialog close
         my.$element.closest('.ui-dialog').on('dialogclose', e => {
             my.destroyRichTextEditors(my.$container)
         })
+
+        this._alert = new Alert($element)
     }
 
     getNewItemDefaults (itemsCount) {
@@ -70,9 +79,8 @@ export default class XanwebItemList {
     }
 
     loadItems () {
-        const my = this
-        const items = my.options.items
-        if(!items || items.length === 0) {
+        const my = this, items = my.options.items
+        if (!items || items.length === 0) {
             return
         }
 
@@ -83,7 +91,7 @@ export default class XanwebItemList {
     addItem (item) {
         const my = this
         my.$container.append(my._templateItem({item: item}))
-        const $newItem = my.$container.find('.ccm-item-entry').last()
+        const $newItem = my.$container.find(`.${this.options.classes.item}`).last()
         my.initPageSelectors($newItem)
         my.initFileSelectors($newItem)
         my.initRichTextEditors($newItem)
@@ -101,41 +109,37 @@ export default class XanwebItemList {
         return $newItem
     }
 
-    setupItemHeaderAction () {
-        const my = this
-        const headerActionOn = my.options.editBtn ?? '.ccm-item-entry > .panel-heading'
-        my.$container.on('click', headerActionOn, function () {
-            if (my.options.editBtn) {
-                $(this).closest('.panel-heading').parent().find('.panel-body').toggle()
-            } else {
-                $(this).parent().find('.panel-body').toggle()
-            }
+    setupItemDetailsExpanderAction () {
+        const me = this
+        me.$container.on('click', `.${me.options.classes.item_expander}`, function () {
+            $(this).closest(`.${me.options.classes.item}`).find($(this).data('target')).toggle()
         })
     }
 
     setupDeleteItemAction () {
         const my = this
-        my.$container.on('click', '.btn-delete-item', function (e) {
+        my.$container.on('click', `.${my.options.classes.remove_item_button}`, function (e) {
+            const $me = $(this)
             e.preventDefault()
             e.stopPropagation()
-
-            if (confirm(my.options.i18n.confirm)) {
-                $(this).closest('.ccm-item-entry').hide('fade', function () {
-                    // Properly Destroy Rich Text Editors
-                    my.destroyRichTextEditors($(this))
-                    $(this).remove()
-                    my.doSortCount()
-                })
-            }
+            my._alert.confirm(my.options.i18n.confirm, '', {
+                okCallback: () => {
+                    $me.closest(`.${my.options.classes.item}`).hide('fade', function () {
+                        my.destroyRichTextEditors($(this))
+                        $(this).remove()
+                        my.doSortCount()
+                    })
+                }
+            })
         })
     }
 
     setupAddItemAction () {
         const my = this
-        my.$element.find('.ccm-add-item-entry').click(function () {
-            const itemsCount = my.$container.find('.ccm-item-entry').length
+        my.$element.find(`.${my.options.classes.add_item_button}`).click(function () {
+            const itemsCount = my.$container.find(`.${this.options.classes.item}`).length
             if(my.options.maxItemsCount > 0 && itemsCount >= my.options.maxItemsCount) {
-                alert(my.options.i18n.maxItemsExceeded)
+                my._alert.message(my.options.i18n.maxItemsExceeded)
                 return false
             }
 
@@ -144,11 +148,11 @@ export default class XanwebItemList {
                 my.getNewItemDefaults(itemsCount)
 
             const $newItem = my.addItem(defaultItem)
-            $newItem.find('.panel-heading').trigger('click')
+            $newItem.find(`.${my.options.classes.item_expander}`).trigger('click')
             my.doSortCount()
-            if(my.$element.closest('.ui-dialog.ui-widget').find('.floating-block-actions').length > 0) {
+            if (my.$element.closest('.ui-dialog.ui-widget').find('.floating-block-actions').length > 0) {
                 let scroll = $newItem.position().top
-                if(!my.$container.parent().hasClass('ccm-block-edit-container')) {
+                if(!my.$container.parent().hasClass(my.options.classes.wrapper)) {
                     scroll += my.$container.parent().position().top
                 }
 
@@ -278,7 +282,7 @@ export default class XanwebItemList {
     detectCheckboxes ($item) {
         $item.find('.checkbox').each(function (index) {
             const $checkboxField = $(this).find('[type="checkbox"]')
-            if ($checkboxField.val() == "1") {
+            if ($checkboxField.val() === "1") {
                 $checkboxField.parent().append(`<input type="hidden" name="${$checkboxField.attr('name')}">`)
                 $checkboxField.removeAttr('name')
                 $checkboxField.change(function (e) {
@@ -288,16 +292,19 @@ export default class XanwebItemList {
         })
     }
 
+    setupSort() {
+        const me = this
+        me.$container.sortable({
+            handle: `.${this.options.classes.item_expander}`,
+            update: function(){
+                me.doSortCount()
+            }
+        })
+    }
+
     doSortCount () {
-        this.$container.find('.ccm-item-entry').each(function (index) {
+        this.$container.find(`.${this.options.classes.item}`).each(function (index) {
             $(this).find('.ccm-item-entry-sort').val(index)
         })
     }
-}
-
-// jQuery Plugin
-$.fn.xwItemList = function (options) {
-    return $.each($(this), function (i, obj) {
-        new XanwebItemList($(this), options)
-    })
 }

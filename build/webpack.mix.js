@@ -5,9 +5,7 @@ mix.webpackConfig({
         symlinks: false
     },
     externals: {
-        jquery: 'jQuery',
-        vue: 'Vue',
-        cookie: 'Cookie'
+        jquery: 'jQuery'
     }
 })
 
@@ -17,10 +15,15 @@ mix.options({
 
 mix.setPublicPath('..')
 
-mix.js('assets/js/item-list.js', 'js')
-    .sass('assets/sass/item-list.scss', 'css')
-    .disableNotifications();
+mix
+    .sass('assets/sass/item-list.scss', 'css/item-list.css')
+    .js('assets/js/item-list/index.js', 'js/item-list.js');
 
+mix
+    .sass('assets/sass/gallery.scss', 'css/gallery.css')
+    .js('assets/js/gallery/index.js', 'js/gallery.js');
+
+mix.disableNotifications()
 
 // Disable mix-manifest.json
 // @see https://github.com/JeffreyWay/laravel-mix/issues/580
