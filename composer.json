@@ -1,20 +1,30 @@
 {
-    "name": "xanweb/c5-item-list",
-    "description": "Manage your list of items easily without need to write a bunch of code",
-    "keywords": ["js", "Item List", "template", "entry list"],
-    "type": "library",
-    "license": "MIT",
-    "require": {
-        "php": ">=7.2",
-        "xanweb/c5-ext-asset": "^1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Xanweb\\ItemList\\": "src/",
-            "Xanweb\\ItemList\\Controller\\": "controllers/"
-        }
-    },
-    "support": {
-        "source": "https://github.com/xanweb/c5-item-list"
+  "name": "xanweb/c5-item-list",
+  "description": "Manage your list of items easily without need to write a bunch of code",
+  "keywords": [
+    "js",
+    "Item List",
+    "template",
+    "entry list"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.2",
+    "xanweb/c5-foundation": "^1.3",
+    "xanweb/c5-ext-asset": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Xanweb\\ItemList\\": "src/"
     }
+  },
+  "support": {
+    "source": "https://github.com/xanweb/c5-item-list"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "1.x-dev"
+    }
+  }
 }
