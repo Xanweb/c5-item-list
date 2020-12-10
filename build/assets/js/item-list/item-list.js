@@ -32,7 +32,7 @@ export default class ItemList {
      * @param  {Object} options
      */
     constructor ($element, options = {}) {
-        const my = this, itemListDefaults = $.extend(defaults, xanweb || {})
+        const my = this, itemListDefaults = $.extend(defaults, window['xanweb'] || {})
         my.options = $.extend({
             classes: itemListDefaults.classes,
             maxItemsCount: itemListDefaults.maxItemsCount,
@@ -295,7 +295,10 @@ export default class ItemList {
     setupSort() {
         const me = this
         me.$container.sortable({
-            handle: `.${this.options.classes.item_expander}`,
+            axis: 'y',
+            cursor: 'move',
+            handle: 'i.fa-arrows',
+            placeholder: 'ui-state-highlight',
             update: function(){
                 me.doSortCount()
             }
