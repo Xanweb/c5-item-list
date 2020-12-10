@@ -297,7 +297,7 @@ export default class ItemList {
         me.$container.sortable({
             axis: 'y',
             cursor: 'move',
-            handle: 'i.fa-arrows',
+            handle: '.drag-handle',
             placeholder: 'ui-state-highlight',
             update: function(){
                 me.doSortCount()
