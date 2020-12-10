@@ -137,7 +137,7 @@ export default class ItemList {
     setupAddItemAction () {
         const my = this
         my.$element.find(`.${my.options.classes.add_item_button}`).click(function () {
-            const itemsCount = my.$container.find(`.${this.options.classes.item}`).length
+            const itemsCount = my.$container.find(`.${my.options.classes.item}`).length
             if(my.options.maxItemsCount > 0 && itemsCount >= my.options.maxItemsCount) {
                 my._alert.message(my.options.i18n.maxItemsExceeded)
                 return false
