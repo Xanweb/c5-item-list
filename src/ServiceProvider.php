@@ -2,20 +2,22 @@
 
 namespace Xanweb\ItemList;
 
-use Concrete\Core\Foundation\Service\Provider as CoreServiceProvider;
 use Xanweb\ExtAsset\Asset\VendorAssetManager;
 use Xanweb\Foundation\Config\BeforeRenderDefaultAssetJS;
 use Xanweb\Foundation\Config\JavascriptAssetDefaults;
+use Xanweb\Foundation\JavascriptDefaultsServiceProvider;
 
-class ServiceProvider extends CoreServiceProvider
+class ServiceProvider extends JavascriptDefaultsServiceProvider
 {
-    public function register(): void
+    public function _register(): void
     {
+        parent::_register();
+
         $this->registerListeners();
         $this->registerAssets();
     }
 
-    protected function registerListeners(): void
+    private function registerListeners(): void
     {
         $this->app['director']->addListener(BeforeRenderDefaultAssetJS::NAME, function (BeforeRenderDefaultAssetJS $event) {
             JavascriptAssetDefaults::macro('mergeWith', function (array $items) {
@@ -36,14 +38,14 @@ class ServiceProvider extends CoreServiceProvider
         });
     }
 
-    protected function getInitRichTextEditorJSFunction()
+    private function getInitRichTextEditorJSFunction()
     {
         return $this->app['config']->get('xanweb.item_list.editor.initRichTextEditorJSFunc', function () {
             return $this->app['editor']->getEditorInitJSFunction();
         });
     }
 
-    protected function getDestroyRichTextEditorJSFunction()
+    private function getDestroyRichTextEditorJSFunction()
     {
         return $this->app['config']->get('xanweb.item_list.editor.destroyRichTextEditorJSFunc', function () {
             return <<<EOT
@@ -60,7 +62,7 @@ EOT;
         });
     }
 
-    protected function registerAssets(): void
+    private function registerAssets(): void
     {
         VendorAssetManager::registerMultiple([
             'xw/item-list' => [
