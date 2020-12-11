@@ -1,5 +1,6 @@
 /* global $, xanweb, _, PNotify */
 export default class Alert {
+
     /**
      * Construct Notification.
      *
@@ -12,14 +13,20 @@ export default class Alert {
             cancelText: 'Cancel'
         }, defaults)
 
-        this.stackContext = {dir1: 'down', dir2: 'left', firstpos1: 25, context: $container, modal: true}
-        this._centerStack()
-
-        $(window).resize(() => this._centerStack())
+        this.overlay = $("<div />", {"class": "ui-pnotify-modal-overlay", "style": "display: none;"}).prependTo($container)
+        this.stackContext = {dir1: 'down', dir2: 'left', firstpos1: 0, firstpos2: 0, spacing2: 0, context: $container, animation: false}
     }
 
-    _centerStack() {
-        this.stackContext.firstpos2 = (this.stackContext.context.width() / 2) - (Number(PNotify.prototype.options.width.replace(/\D/g, '')) / 2)
+    _beforeInit(options) {
+        PNotify.removeStack(options.stack)
+
+        this.overlay.show()
+
+        return true
+    }
+
+    _afterClose(notice) {
+        this.overlay.hide()
     }
 
     /**
@@ -38,48 +45,47 @@ export default class Alert {
             cancelCallback: false
         }, buttons)
 
-        let buttonsHTML = '<div class="ccm-notification-inner-buttons"><div class="btn-toolbar pull-right">'
+        let buttonsHTML = '<div class="ccm-notification-inner-buttons clearfix"><div class="btn-toolbar pull-right">'
         buttonsHTML += `<a href="javascript:void(0)" class="btn btn-xs btn-primary ccm-notification-confirm">${buttons.confirmText}</a>`
         buttonsHTML += `<a href="javascript:void(0)" class="btn btn-xs btn-default ccm-notification-cancel">${buttons.cancelText}</a>`
         buttonsHTML += '</div></div>'
 
         const pNotify = new PNotify({
             type: 'info',
-            icon: 'fa fa-check-mark',
+            icon: 'fa fa-question-circle',
             title: title,
             text: text + buttonsHTML,
             addclass: 'ccm-ui',
             hide: false,
+            remove: true,
+            destroy: true,
+            animate: false,
+            animation: 'none',
+            animate_speed: 1,
             stack: me.stackContext,
-            animate: {
-                animate: true,
-                in_class: 'fadeIn',
-                out_class: 'fadeOut'
-            },
-            after_open: function (notice) {
-                me.stackContext.context.on('click', '.ccm-notification-confirm', function (e) {
+            before_init: options => me._beforeInit(options),
+            after_open: notice => {
+                me.stackContext.context.find('.ccm-notification-confirm').click(function (e) {
                     e.preventDefault()
 
                     if (typeof buttons.okCallback === 'function') {
                         buttons.okCallback()
                     }
 
-                    notice.remove()
-                })
+                    notice.remove(false)
+                }).focus()
 
-                me.stackContext.context.on('click', '.ccm-notification-cancel', function (e) {
+                me.stackContext.context.find('.ccm-notification-cancel').click(function (e) {
                     e.preventDefault()
 
                     if (typeof buttons.cancelCallback === 'function') {
                         buttons.cancelCallback()
                     }
 
-                    notice.remove()
+                    notice.remove(false)
                 })
-
-                me.stackContext.context.find('.ccm-notification-confirm').focus()
-                me._centerStack()
-            }
+            },
+            after_close: notice => me._afterClose(notice)
         })
     }
 
@@ -113,7 +119,7 @@ export default class Alert {
      */
     message(title, text= '', icon = 'exclamation-circle', type = 'notice') {
         const me = this
-        let buttonsHTML = '<div class="ccm-notification-inner-buttons"><div class="btn-toolbar text-center">'
+        let buttonsHTML = '<div class="ccm-notification-inner-buttons clearfix"><div class="btn-toolbar pull-right">'
         buttonsHTML += `<a href="javascript:void(0)" class="btn btn-xs btn-primary ccm-notification-confirm">${me.options.confirmText}</a>`
         buttonsHTML += '</div></div>'
 
@@ -124,19 +130,21 @@ export default class Alert {
             text: text + buttonsHTML,
             addclass: 'ccm-ui',
             hide: false,
+            remove: true,
+            destroy: true,
+            animate: false,
+            animation: 'none',
+            animate_speed: 1,
             stack: me.stackContext,
-            animate: {
-                animate: true,
-                in_class: 'fadeIn',
-                out_class: 'fadeOut'
-            },
-            after_open: function (notice) {
-                me.stackContext.context.on('click', '.ccm-notification-confirm', function (e) {
+            before_init: options => me._beforeInit(options),
+            after_open: notice => {
+                me.stackContext.context.find('.ccm-notification-confirm').click(function (e) {
                     e.preventDefault()
 
-                    notice.remove()
+                    notice.remove(false)
                 })
-            }
+            },
+            after_close: notice => me._afterClose(notice)
         })
     }
 }

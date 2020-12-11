@@ -1,0 +1,28 @@
+.ui-pnotify-modal-overlay {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.ccm-notification {
+  max-width: 100%;
+  top: 0;
+}
+
+.ccm-notification-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.ui-pnotify-title {
+  font-size: 18px;
+}
+
+.ccm-notification-inner-buttons {
+  .btn-toolbar {
+    float: right;
+
+    .btn {
+      min-width: 40px;
+    }
+  }
+}

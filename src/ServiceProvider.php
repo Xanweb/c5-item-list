@@ -27,7 +27,7 @@ class ServiceProvider extends JavascriptDefaultsServiceProvider
             $event->getJavascriptAssetDefaults()->mergeWith([
                 'i18n' => [
                   'confirm' => t('Are you sure?'),
-                  'maxItemsExceeded' => t('Max items exceeded, You can not add any more items.'),
+                  'maxItemsExceeded' => t('Max items exceeded, you cannot add any more items.'),
                   'pageNotFound' => t('Page not found'),
                 ],
                 'editor' => [

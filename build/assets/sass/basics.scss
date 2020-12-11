@@ -5,6 +5,7 @@ $item-list-class: 'xw-item-list' !default;
     $this: &;
     padding-bottom: 15px;
     position: relative;
+    overflow-x: hidden;
 
     fieldset {
       margin-bottom: 10px !important;

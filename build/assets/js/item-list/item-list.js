@@ -4,7 +4,7 @@ import Alert from '../alert'
 const defaults = {
     i18n: {
         confirm: 'Are you sure?',
-        maxItemsExceeded: 'Max items exceeded, You can not add any more items.',
+        maxItemsExceeded: 'Max items exceeded, you cannot add any more items.',
         pageNotFound: 'Page not found'
     },
     editor: {

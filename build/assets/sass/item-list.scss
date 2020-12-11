@@ -10,6 +10,8 @@ $item-list-item-bg:                     #fff !default;
   .#{$item-list-class} {
     $this: &;
 
+    @import "alert";
+
     &__items {
       padding-bottom: 30px;
     }
