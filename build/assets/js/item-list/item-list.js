@@ -1,5 +1,4 @@
 /* global $, xanweb, _ */
-import Alert from '../alert'
 
 const defaults = {
     i18n: {
@@ -28,7 +27,7 @@ export default class ItemList {
     /**
      * Construct ItemList.
      *
-     * @param  {Object} $element
+     * @param  {jQuery} $element
      * @param  {Object} options
      */
     constructor ($element, options = {}) {
@@ -41,18 +40,11 @@ export default class ItemList {
             initRichTextEditor: itemListDefaults.editor.initRichTextEditor,
             i18n: itemListDefaults.i18n,
             items: [],
-            onSelectPage: ($el, response) => {},
-            onSelectFile: ($el, response) => {},
-            extraItemLoad: ($newItem, item) => {}
+            extraItemLoad: ($newItem, item) => {},
+            itemDefaults: itemsCount => ({
+                sortOrder: itemsCount
+            })
         }, options)
-
-        if (options.onSelectPage !== undefined && $.fn.xanPageSelector === undefined) {
-            console.error('onSelectPage requires $.fn.xanPageSelector which is undefined!')
-        }
-
-        if (options.onSelectFile !== undefined && $.fn.xanFileSelector === undefined) {
-            console.error('onSelectFile requires $.fn.xanFileSelector which is undefined!')
-        }
 
         my.$element = $element.addClass(my.options.classes.wrapper)
         my.$container = $element.find(`.${my.options.classes.items}`)
@@ -68,14 +60,10 @@ export default class ItemList {
         my.$element.closest('.ui-dialog').on('dialogclose', e => {
             my.destroyRichTextEditors(my.$container)
         })
-
-        this._alert = new Alert($element)
     }
 
     getNewItemDefaults (itemsCount) {
-        return {
-            sortOrder: itemsCount
-        }
+        return this.options.itemDefaults(itemsCount)
     }
 
     loadItems () {
@@ -119,18 +107,15 @@ export default class ItemList {
     setupDeleteItemAction () {
         const my = this
         my.$container.on('click', `.${my.options.classes.remove_item_button}`, function (e) {
-            const $me = $(this)
             e.preventDefault()
             e.stopPropagation()
-            my._alert.confirm(my.options.i18n.confirm, '', {
-                okCallback: () => {
-                    $me.closest(`.${my.options.classes.item}`).hide('fade', function () {
-                        my.destroyRichTextEditors($(this))
-                        $(this).remove()
-                        my.doSortCount()
-                    })
-                }
-            })
+            if (confirm(my.options.i18n.confirm)) {
+                $(this).closest(`.${my.options.classes.item}`).hide('fade', function () {
+                    my.destroyRichTextEditors($(this))
+                    $(this).remove()
+                    my.doSortCount()
+                })
+            }
         })
     }
 
@@ -138,21 +123,17 @@ export default class ItemList {
         const my = this
         my.$element.find(`.${my.options.classes.add_item_button}`).click(function () {
             const itemsCount = my.$container.find(`.${my.options.classes.item}`).length
-            if(my.options.maxItemsCount > 0 && itemsCount >= my.options.maxItemsCount) {
-                my._alert.message(my.options.i18n.maxItemsExceeded)
+            if (my.options.maxItemsCount > 0 && itemsCount >= my.options.maxItemsCount) {
+                alert(my.options.i18n.maxItemsExceeded)
                 return false
             }
 
-            const defaultItem = (my.options.getNewItemDefaults !== undefined) ?
-                my.options.getNewItemDefaults(itemsCount) :
-                my.getNewItemDefaults(itemsCount)
-
-            const $newItem = my.addItem(defaultItem)
+            const $newItem = my.addItem(my.getNewItemDefaults(itemsCount))
             $newItem.find(`.${my.options.classes.item_expander}`).trigger('click')
             my.doSortCount()
             if (my.$element.closest('.ui-dialog.ui-widget').find('.floating-block-actions').length > 0) {
                 let scroll = $newItem.position().top
-                if(!my.$container.parent().hasClass(my.options.classes.wrapper)) {
+                if (!my.$container.parent().hasClass(my.options.classes.wrapper)) {
                     scroll += my.$container.parent().position().top
                 }
 
@@ -225,36 +206,20 @@ export default class ItemList {
     initPageSelectors ($item) {
         const my = this
         $item.find('div[data-field=page-selector]').each(function () {
-            if ($.fn.xanPageSelector !== undefined) {
-                $(this).xanPageSelector({
-                    inputName: $(this).data('name'),
-                    cID: parseInt($(this).data('value')),
-                    onChange: my.options.onSelectPage
-                })
-            } else {
-                $(this).concretePageSelector({
-                    inputName: $(this).data('name'),
-                    cID: parseInt($(this).data('value'))
-                })
-            }
+            $(this).concretePageSelector({
+                inputName: $(this).data('name'),
+                cID: parseInt($(this).data('value'))
+            })
         })
     }
 
     initFileSelectors ($item) {
         const my = this
         $item.find('div[data-field=file-selector]').each(function () {
-            if ($.fn.xanFileSelector !== undefined) {
-                $(this).xanFileSelector({
-                    inputName: $(this).data('name'),
-                    fID: parseInt($(this).data('value')),
-                    onChange: my.options.onSelectFile
-                })
-            } else {
-                $(this).concreteFileSelector({
-                    inputName: $(this).data('name'),
-                    fID: parseInt($(this).data('value'))
-                })
-            }
+            $(this).concreteFileSelector({
+                inputName: $(this).data('name'),
+                fID: parseInt($(this).data('value'))
+            })
         })
     }
 
@@ -299,7 +264,7 @@ export default class ItemList {
             cursor: 'move',
             handle: '.drag-handle',
             placeholder: 'ui-state-highlight',
-            update: function(){
+            update: function() {
                 me.doSortCount()
             }
         })
@@ -307,7 +272,7 @@ export default class ItemList {
 
     doSortCount () {
         this.$container.find(`.${this.options.classes.item}`).each(function (index) {
-            $(this).find('.ccm-item-entry-sort').val(index)
+            $(this).find('.xw-item-entry-sort').val(index)
         })
     }
 }

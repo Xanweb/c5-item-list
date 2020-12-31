@@ -1,5 +1,5 @@
 /* global $ */
-import ItemList from "./item-list"
+import ItemList from './item-list'
 
 // jQuery Plugin
 $.fn.xwItemList = function (options) {

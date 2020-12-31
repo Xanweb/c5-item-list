@@ -17,11 +17,10 @@ mix.setPublicPath('..')
 
 mix
     .sass('assets/sass/item-list.scss', 'css/item-list.css')
-    .js('assets/js/item-list/index.js', 'js/item-list.js');
+    .js('assets/js/item-list/index.js', 'js/item-list.js')
 
 mix
-    .sass('assets/sass/gallery.scss', 'css/gallery.css')
-    .js('assets/js/gallery/index.js', 'js/gallery.js');
+    .js('assets/js/slider/index.js', 'js/slider-form.js')
 
 mix.disableNotifications()
 

@@ -4,12 +4,11 @@ namespace Xanweb\ItemList;
 
 use Xanweb\ExtAsset\Asset\VendorAssetManager;
 use Xanweb\Foundation\Config\BeforeRenderDefaultAssetJS;
-use Xanweb\Foundation\Config\JavascriptAssetDefaults;
 use Xanweb\Foundation\JavascriptDefaultsServiceProvider;
 
 class ServiceProvider extends JavascriptDefaultsServiceProvider
 {
-    public function _register(): void
+    protected function _register(): void
     {
         parent::_register();
 
@@ -20,10 +19,6 @@ class ServiceProvider extends JavascriptDefaultsServiceProvider
     private function registerListeners(): void
     {
         $this->app['director']->addListener(BeforeRenderDefaultAssetJS::NAME, function (BeforeRenderDefaultAssetJS $event) {
-            JavascriptAssetDefaults::macro('mergeWith', function (array $items) {
-                $this->items = array_merge($this->items, $items);
-            });
-
             $event->getJavascriptAssetDefaults()->mergeWith([
                 'i18n' => [
                   'confirm' => t('Are you sure?'),
@@ -69,6 +64,9 @@ EOT;
                 ['vendor-javascript', 'js/item-list.js', 'xanweb/c5-item-list', ['minify' => false]],
                 ['vendor-css', 'css/item-list.css', 'xanweb/c5-item-list', ['minify' => false]],
             ],
+            'xw/slider-form' => [
+                ['vendor-javascript', 'js/slider-form.js', 'xanweb/c5-item-list', ['minify' => false]],
+            ],
         ]);
 
         VendorAssetManager::registerGroupMultiple([
@@ -78,6 +76,15 @@ EOT;
                     ['javascript', 'underscore'],
                     ['javascript-localized', 'xw/defaults'],
                     ['vendor-javascript', 'xw/item-list'],
+                    ['vendor-css', 'xw/item-list'],
+                ],
+            ],
+            'xw/slider-form' => [
+                [
+                    ['javascript', 'jquery'],
+                    ['javascript', 'underscore'],
+                    ['javascript-localized', 'xw/defaults'],
+                    ['vendor-javascript', 'xw/slider-form'],
                     ['vendor-css', 'xw/item-list'],
                 ],
             ],
