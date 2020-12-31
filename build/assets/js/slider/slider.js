@@ -30,7 +30,7 @@ export default class Slider extends ItemList {
                         let item = my.getNewItemDefaults(itemsCount)
                         item[my.options.fileFieldName] = fID
 
-                        $lastItem = my.addItem(my.getNewItemDefaults(itemsCount))
+                        $lastItem = my.addItem(item)
                     }
 
                     if ($lastItem !== null) {
