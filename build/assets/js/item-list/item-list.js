@@ -20,7 +20,7 @@ const defaults = {
        edit_item_button: 'xw-item-list__edit-item',
        remove_item_button: 'xw-item-list__remove-item'
     },
-    templateIdentifierPrefix: 'itemTemplate'
+    templateId: 'itemTemplate'
 }
 
 export default class ItemList {
@@ -35,7 +35,7 @@ export default class ItemList {
         my.options = $.extend({
             classes: itemListDefaults.classes,
             maxItemsCount: itemListDefaults.maxItemsCount,
-            templateIdentifierPrefix: itemListDefaults.templateIdentifierPrefix,
+            templateId: itemListDefaults.templateId,
             destroyRichTextEditor: itemListDefaults.editor.destroyRichTextEditor,
             initRichTextEditor: itemListDefaults.editor.initRichTextEditor,
             i18n: itemListDefaults.i18n,
@@ -48,7 +48,7 @@ export default class ItemList {
 
         my.$element = $element.addClass(my.options.classes.wrapper)
         my.$container = $element.find(`.${my.options.classes.items}`)
-        my._templateItem = _.template($(`#${my.options.templateIdentifierPrefix}${options.bID}`).html())
+        my._templateItem = _.template($(`#${my.options.templateId}`).html())
         my.loadItems()
         my.setupItemDetailsExpanderAction()
         my.setupDeleteItemAction()
@@ -247,13 +247,14 @@ export default class ItemList {
     detectCheckboxes ($item) {
         $item.find('.checkbox').each(function (index) {
             const $checkboxField = $(this).find('[type="checkbox"]')
-            if ($checkboxField.val() === "1") {
-                $checkboxField.parent().append(`<input type="hidden" name="${$checkboxField.attr('name')}">`)
-                $checkboxField.removeAttr('name')
-                $checkboxField.change(function (e) {
-                    $checkboxField.parent().find('input[type="hidden"]').val($(this).is(':checked') ? 1 : 0)
-                }).trigger('change')
-            }
+            $checkboxField.parent().append(`<input type="hidden" name="${$checkboxField.attr('name')}">`)
+            $checkboxField.removeAttr('name')
+            $checkboxField.change(function (e) {
+                const defaultValue = ($(this).val() === '1') ? 0 : ''
+                $checkboxField.parent().find('input[type="hidden"]').val(
+                    $(this).is(':checked') ? $(this).val() : defaultValue
+                )
+            }).trigger('change')
         })
     }
 
