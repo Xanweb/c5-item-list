@@ -1,8 +1,10 @@
-$item-list-class:                       'xw-item-list' !default;
-$item-list-panel-heading-bg:            #d9edf7 !default;
-$item-list-panel-heading-border-color:  #e3e3e3 !default;
-$item-list-panel-heading-color:         #31708f !default;
-$item-list-item-bg:                     #fff !default;
+$item-list-class:                         'xw-item-list' !default;
+$item-list-panel-heading-bg:              #d9edf7 !default;
+$item-list-panel-heading-border-color:    #e3e3e3 !default;
+$item-list-panel-heading-color:           #31708f !default;
+$item-list-item-bg:                       #fff !default;
+$item-list-image-selector-bg:             #dedede !default;
+$item-list-image-selector-border-color:   #cdcdcd !default;
 
 @import "basics";
 
@@ -11,6 +13,21 @@ $item-list-item-bg:                     #fff !default;
     $this: &;
 
     @import "alert";
+
+    &__img-selector {
+      padding: 5px;
+      cursor: pointer;
+      background: $item-list-image-selector-bg;
+      border: 1px solid $item-list-image-selector-border-color;
+      text-align: center;
+      vertical-align: middle;
+      width: 72px;
+      height: 72px;
+      display: table-cell;
+      img {
+        max-width: 100%;
+      }
+    }
 
     &__items {
       padding-bottom: 30px;

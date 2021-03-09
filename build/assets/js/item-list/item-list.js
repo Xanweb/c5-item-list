@@ -22,7 +22,7 @@ const defaults = {
         togglePaletteLessText: 'less',
         noColorSelectedText: 'No Color Selected',
         clearText: 'Clear Color Selection',
-        preferredFormat: 'rgba',
+        preferredFormat: 'rgb',
         showAlpha: true,
         appendTo: '.ui-dialog',
         showPalette: true,
@@ -45,7 +45,8 @@ const defaults = {
        item_expander: 'xw-item-list__item-expander',
        add_item_button: 'xw-item-list__add-item',
        edit_item_button: 'xw-item-list__edit-item',
-       remove_item_button: 'xw-item-list__remove-item'
+       remove_item_button: 'xw-item-list__remove-item',
+       image_selector: 'xw-item-list__img-selector'
     },
     templateId: 'itemTemplate'
 }
@@ -83,7 +84,6 @@ export default class ItemList {
         my.setupAddItemAction()
         my.setupFloatingActionsBar()
         my.setupSort()
-        my.initFiles()
 
         // Make sure to destroy RichTextEditors on dialog close
         my.$element.closest('.ui-dialog').on('dialogclose', e => {
@@ -243,32 +243,33 @@ export default class ItemList {
         })
     }
 
-    initFiles() {
-        const my = this
-        my.$container.find('.ccm-pick-item-image').each(function () {
-            let fID = $(this).data('value')
-            my._getFileDetails(fID, $(this))
-        })
-    }
-
     initFileSelectors($item) {
         const my = this
-        $item.find('.ccm-pick-item-image').click(function () {
+        const imageSelector = `.${my.options.classes.image_selector}`
+
+        $item.find(imageSelector).each(function () {
+            let fID = $(this).data('value')
+            if(fID) { // To prevent file not found error
+                my._getFileDetails(fID, $(this))
+            }
+        })
+
+        $item.find(imageSelector).click(function () {
             let imageContainer = $(this)
             ConcreteFileManager.launchDialog(function (data) {
                 my._getFileDetails(data.fID, imageContainer)
-            });
-        });
-    };
-    
-    //Todo clean this
-    _getFileDetails(id, elem) {
+            })
+        })
+    }
+
+    //Todo: Check a better solution
+    _getFileDetails(id, $elem) {
         ConcreteFileManager.getFileDetails(id, function (r) {
-            jQuery.fn.dialog.hideLoader();
-            let file = r.files[0];
-            elem.html(file.resultsThumbnailImg);
-            elem.next('.image-fID').val(file.fID);
-        });
+            jQuery.fn.dialog.hideLoader()
+            let file = r.files[0]
+            $elem.html(file.resultsThumbnailImg)
+            $elem.next('.image-fID').val(file.fID)
+        })
     }
 
     initColorPickers ($item) {
