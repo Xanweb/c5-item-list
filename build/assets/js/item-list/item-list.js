@@ -55,6 +55,7 @@ export default class ItemList {
         my.setupAddItemAction()
         my.setupFloatingActionsBar()
         my.setupSort()
+        my.initFiles()
 
         // Make sure to destroy RichTextEditors on dialog close
         my.$element.closest('.ui-dialog').on('dialogclose', e => {
@@ -81,7 +82,7 @@ export default class ItemList {
         my.$container.append(my._templateItem({item: item}))
         const $newItem = my.$container.find(`.${this.options.classes.item}`).last()
         my.initPageSelectors($newItem)
-        my.initFileSelectors($newItem)
+        my.initFileSelector($newItem)
         my.initRichTextEditors($newItem)
         my.detectCheckboxes($newItem)
         my.setupChoiceToggler($newItem)
@@ -213,14 +214,31 @@ export default class ItemList {
         })
     }
 
-    initFileSelectors ($item) {
+    initFiles() {
         const my = this
-        $item.find('div[data-field=file-selector]').each(function () {
-            $(this).concreteFileSelector({
-                inputName: $(this).data('name'),
-                fID: parseInt($(this).data('value'))
-            })
+        my.$container.find('.ccm-pick-item-image').each(function () {
+            let fID = $(this).data('value')
+            my._getFileDetails(fID, $(this))
         })
+    }
+
+    initFileSelector($item) {
+        const my = this
+        $item.find('.ccm-pick-item-image').click(function () {
+            let imageContainer = $(this)
+            ConcreteFileManager.launchDialog(function (data) {
+                my._getFileDetails(data.fID, imageContainer)
+            });
+        });
+    };
+    
+    _getFileDetails(id, elem) {
+        ConcreteFileManager.getFileDetails(id, function (r) {
+            jQuery.fn.dialog.hideLoader();
+            let file = r.files[0];
+            elem.html(file.resultsThumbnailImg);
+            elem.next('.image-fID').val(file.fID);
+        });
     }
 
     initRichTextEditors ($item) {
