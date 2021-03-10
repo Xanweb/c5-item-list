@@ -224,7 +224,6 @@ export default class ItemList {
 
     initColorPickers ($item) {
         const $colorPickers = $item.find('.'+this.options.colorPicker.className)
-        console.log($colorPickers.length)
         if ($colorPickers.length > 0) {
             const my = this
             $colorPickers.each(function() {
