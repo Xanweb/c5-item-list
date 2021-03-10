@@ -51,16 +51,16 @@ public function on_start()
 ```HTML
 <script type="text/template" id="myItemTemplateID">
     
-    <div class="xw-item-list__item well">
+    <div class="xw-item-list__item">
         <!-- Sort Handler Icon (Optional) -->
-        <i class="btn btn-xs drag-handle fa fa-arrows"></i>
+        <i class="btn drag-handle fa fa-arrows"></i>
 
         <!-- An example of a collapsible item structure -->
         <div class="panel-heading">
             <div class="row">
                 <div class="col-xs-12 text-right">
                     <div class="btn-group-sm">
-                        <a href="javascript:void(0);" class="btn btn-default xw-item-list__edit-item xw-item-list__item-expander" data-target=".panel-body">
+                        <a href="javascript:void(0);" class="btn btn-outline-secondary xw-item-list__edit-item xw-item-list__item-expander" data-target=".panel-body">
                             <?= t('Edit Item') ?>
                         </a>
                         <a href="javascript:void(0);" class="btn btn-danger xw-item-list__remove-item"><?= t('Remove') ?></a>
@@ -85,10 +85,17 @@ public function on_start()
 
                 <!-- Example of File Selector field -->
                 <div class="form-group">
-                    <label class="control-label"><?= t('File') ?></label>
-                    <div data-field=file-selector data-name="<?= $view->field('fID') ?>[]" data-value="<%=item.fID%>"></div>
+                    <label class="control-label"><?= t('File') ?></label>                
+                    <div class="xw-item-list__img-selector" data-value="<%=item.fID%>"></div>
+                    <input type="hidden" name="<?php echo $view->field('fID'); ?>[]" class="image-fID" value="<%=item.fID%>"/>
                 </div>
                 
+                <!-- Example of Color Picker field -->
+                <div class="form-group">
+                  <label class="control-label"><?= t('Title Color') ?></label>
+                  <input class="ccm-widget-colorpicker" type="text" name="<?= $view->field('titleColor') ?>[]" value="<%-item.titleColor%>" id="ccm-colorpicker-<?= $view->field('titleColor') ?>" />
+                </div>
+
                 <!-- Example of Link Type auto switcher -->
                 <div style="min-height: 130px;">
                     <div class="form-group">

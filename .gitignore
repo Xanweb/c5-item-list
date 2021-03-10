@@ -11,6 +11,7 @@ __MACOSX
 
 # ignore node files
 /build/node_modules/
+/build/package-lock.json
 
 # ignore composer files
 composer.phar

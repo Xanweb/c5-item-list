@@ -7,7 +7,7 @@
     "update-browserlist": "npx browserslist --update-db"
   },
   "devDependencies": {
-    "caniuse-lite": "^1.0",
+    "caniuse-lite": "^1.0.30001198",
     "cross-env": "^7.0.3",
     "laravel-mix": "^5.0.9",
     "resolve-url-loader": "^3.1.2",
