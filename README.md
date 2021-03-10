@@ -53,7 +53,7 @@ public function on_start()
     
     <div class="xw-item-list__item">
         <!-- Sort Handler Icon (Optional) -->
-        <i class="btn drag-handle fa fa-arrows"></i>
+        <i class="btn drag-handle fas fa-arrows-alt"></i>
 
         <!-- An example of a collapsible item structure -->
         <div class="panel-heading">
