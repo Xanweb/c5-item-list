@@ -28,8 +28,6 @@ public function on_start()
 ## Usage
 1. Load optional assets depending on your needs:
     * Editor Assets (`$this->app['editor']->requireEditorAssets();`) if you need to use RichText Editor
-    * Colorpicker Asset Group (`core/colorpicker`) in case of using Color Picker in the list 
-
 2. Load required Item List Asset Group (`xw/item-list`)
 3. Setup Item List HTML structure
 ```HTML
