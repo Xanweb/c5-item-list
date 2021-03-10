@@ -1,27 +1,5 @@
 /* global $, xanweb, _ */
-
-const defaults = {
-    i18n: {
-        confirm: 'Are you sure?',
-        maxItemsExceeded: 'Max items exceeded, you cannot add any more items.',
-        pageNotFound: 'Page not found'
-    },
-    editor: {
-        initRichTextEditor: editors => {},
-        destroyRichTextEditor: editor => {}
-    },
-    maxItemsCount: 100,
-    classes: {
-       wrapper: 'xw-item-list',
-       items: 'xw-item-list__items',
-       item: 'xw-item-list__item',
-       item_expander: 'xw-item-list__item-expander',
-       add_item_button: 'xw-item-list__add-item',
-       edit_item_button: 'xw-item-list__edit-item',
-       remove_item_button: 'xw-item-list__remove-item'
-    },
-    templateId: 'itemTemplate'
-}
+import defaults from './defaults'
 
 export default class ItemList {
     /**
@@ -38,6 +16,7 @@ export default class ItemList {
             templateId: itemListDefaults.templateId,
             destroyRichTextEditor: itemListDefaults.editor.destroyRichTextEditor,
             initRichTextEditor: itemListDefaults.editor.initRichTextEditor,
+            colorPicker: itemListDefaults.colorPicker,
             i18n: itemListDefaults.i18n,
             items: [],
             extraItemLoad: ($newItem, item) => {},
@@ -82,6 +61,7 @@ export default class ItemList {
         const $newItem = my.$container.find(`.${this.options.classes.item}`).last()
         my.initPageSelectors($newItem)
         my.initFileSelectors($newItem)
+        my.initColorPickers($newItem)
         my.initRichTextEditors($newItem)
         my.detectCheckboxes($newItem)
         my.setupChoiceToggler($newItem)
@@ -234,6 +214,16 @@ export default class ItemList {
             })
 
             this.options.initRichTextEditor($editors)
+        }
+    }
+
+    initColorPickers ($item) {
+        const $colorPickers = $item.find('.'+this.options.colorPicker.className)
+        if ($colorPickers.length > 0) {
+            const my = this
+            $colorPickers.each(function() {
+                $(this).spectrum(my.options.colorPicker)
+            })
         }
     }
 
