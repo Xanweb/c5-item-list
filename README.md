@@ -94,7 +94,7 @@ public function on_start()
                 <!-- Example of Color Picker field -->
                 <div class="form-group">
                   <label class="control-label"><?= t('Title Color') ?></label>
-                  <input class="ccm-widget-colorpicker" type="text" name="<?= $view->field('titleColor') ?>[]" value="<%-item.titleColor%>" id="ccm-colorpicker-<?= $view->field('titleColor') ?>" />
+                  <input class="ccm-widget-colorpicker" type="text" name="<?= $view->field('titleColor') ?>[]" value="<%-item.titleColor%>" id="ccm-colorpicker-<%=_.uniqueId('title-color')%>" />
                 </div>
 
                 <!-- Example of Link Type auto switcher -->
