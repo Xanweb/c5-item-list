@@ -195,30 +195,20 @@ export default class ItemList {
 
     initFileSelectors($item) {
         const my = this
-        const imageSelector = `.${my.options.classes.image_selector}`
-
-        $item.find(imageSelector).each(function () {
-            let fID = $(this).data('value')
-            if(fID) { // To prevent file not found error
-                my._getFileDetails(fID, $(this))
-            }
-        })
-
-        $item.find(imageSelector).click(function () {
-            let imageContainer = $(this)
-            ConcreteFileManager.launchDialog(function (data) {
-                my._getFileDetails(data.fID, imageContainer)
-            })
-        })
-    }
-
-    //Todo: Check a better solution
-    _getFileDetails(id, $elem) {
-        ConcreteFileManager.getFileDetails(id, function (r) {
-            jQuery.fn.dialog.hideLoader()
-            let file = r.files[0]
-            $elem.html(file.resultsThumbnailImg)
-            $elem.next('.image-fID').val(file.fID)
+        const fileSelector = `.${my.options.classes.file_selector}`
+        $item.find(fileSelector).each(function () {
+            const componentScript =
+            `<script type="text/javascript">
+                $(function() {
+                    Concrete.Vue.activateContext('cms', function (Vue, config) {
+                        new Vue({
+                            el: 'div[data-concrete-file-input="${$(this).data('concrete-file-input')}"]',
+                            components: config.components
+                        })
+                    })
+                })
+            </script>`
+            $(this).after(componentScript)
         })
     }
 

@@ -84,14 +84,15 @@ public function on_start()
                 <!-- Example of File Selector field -->
                 <div class="form-group">
                     <label class="control-label"><?= t('File') ?></label>                
-                    <div class="xw-item-list__img-selector" data-value="<%=item.fID%>"></div>
-                    <input type="hidden" name="<?php echo $view->field('fID'); ?>[]" class="image-fID" value="<%=item.fID%>"/>
+                    <div class="xw-item-list__file-selector" data-concrete-file-input="<%=_.uniqueId('file-selector')%>">
+                      <concrete-file-input :file-id="<%-item.fID%>" choose-text="<?=t('Choose Image')?>" input-name="<?php echo $view->field('fID'); ?>[]"></concrete-file-input>
+                    </div>                
                 </div>
                 
                 <!-- Example of Color Picker field -->
                 <div class="form-group">
                   <label class="control-label"><?= t('Title Color') ?></label>
-                  <input class="ccm-widget-colorpicker" type="text" name="<?= $view->field('titleColor') ?>[]" value="<%-item.titleColor%>" id="ccm-colorpicker-<?= $view->field('titleColor') ?>" />
+                  <input class="ccm-widget-colorpicker" type="text" name="<?= $view->field('titleColor') ?>[]" value="<%-item.titleColor%>" id="ccm-colorpicker-<%=_.uniqueId('title-color')%>" />
                 </div>
 
                 <!-- Example of Link Type auto switcher -->

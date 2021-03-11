@@ -43,7 +43,7 @@ export default {
         add_item_button: 'xw-item-list__add-item',
         edit_item_button: 'xw-item-list__edit-item',
         remove_item_button: 'xw-item-list__remove-item',
-        image_selector: 'xw-item-list__img-selector'
+        file_selector: 'xw-item-list__file-selector'
     },
     templateId: 'itemTemplate'
 }

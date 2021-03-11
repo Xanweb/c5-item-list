@@ -1,1 +1,143 @@
-.ccm-ui .xw-item-list{padding-bottom:15px;position:relative;overflow-x:hidden}.ccm-ui .xw-item-list fieldset{margin-bottom:10px!important;padding-bottom:10px!important}.ccm-ui .xw-item-list .cke_editable{padding:5px 9px}.ccm-ui .xw-item-list input[type=text],.ccm-ui .xw-item-list textarea{display:block;width:100%}.ui-dialog.ui-widget div.floating-block-actions{display:none;width:100%;background:#fff;position:absolute;bottom:80px;left:0;right:17px;padding:15px 3.5% 15px 25px;z-index:150;box-shadow:-9px -2px 50px -5px rgba(5,5,5,.1);opacity:.9}.ui-dialog.ui-widget div.floating-block-actions:hover{opacity:1}.ui-dialog.ui-widget.has-floating-block-actions .ui-dialog-content.ui-widget-content{margin-bottom:70px}.ui-dialog.ui-widget.has-floating-block-actions div.floating-block-actions{display:block}.ui-dialog.ui-widget.has-floating-block-actions .xw-item-list__items{padding-bottom:0}.ccm-ui .xw-item-list .ui-pnotify-modal-overlay{background-color:hsla(0,0%,100%,.25)}.ccm-ui .xw-item-list .ccm-notification{max-width:100%;top:0}.ccm-ui .xw-item-list .ccm-notification-warning{color:#856404;background-color:#fff3cd;border-color:#ffeeba}.ccm-ui .xw-item-list .ui-pnotify-title{font-size:18px}.ccm-ui .xw-item-list .ccm-notification-inner-buttons .btn-toolbar{float:right}.ccm-ui .xw-item-list .ccm-notification-inner-buttons .btn-toolbar .btn{min-width:40px}.ccm-ui .xw-item-list__img-selector{padding:5px;cursor:pointer;background:#dedede;border:1px solid #cdcdcd;text-align:center;vertical-align:middle;width:72px;height:72px;display:table-cell}.ccm-ui .xw-item-list__img-selector img{max-width:100%}.ccm-ui .xw-item-list__items{padding-bottom:30px}.ccm-ui .xw-item-list__item{position:relative;padding:0 15px;margin-left:0;margin-right:0;background:#fff;border:1px solid #e3e3e3;border-radius:2px;margin-bottom:20px}.ccm-ui .xw-item-list__item .drag-handle{cursor:move!important;padding:2px 8px;font-size:14px;line-height:1.5;border-radius:1px;position:absolute;background:#f8f8f8;top:0;right:0}.ccm-ui .xw-item-list .panel-heading{margin-left:-15px;background:#fff;color:#31708f;border-bottom:0;padding:10px 40px 10px 15px;cursor:default}.ccm-ui .xw-item-list .panel-heading label{padding-top:3px}.ccm-ui .xw-item-list .panel-heading .drag-handle{cursor:move!important}.ccm-ui .xw-item-list .panel-heading .btn-delete-item i{margin-top:13px}.ccm-ui .xw-item-list .panel-heading .btn-group-xs>.btn-delete-item{position:static}.ccm-ui .xw-item-list .panel-body{width:100%;padding:10px 0}.ccm-ui .xw-item-list .panel-body .form-group-sm{margin-bottom:15px}.ccm-ui .xw-item-list .well{padding:0 15px;margin-left:0;margin-right:0;background:#fff}.ccm-ui .xw-item-list .btn-success{margin-bottom:20px}.ccm-ui .xw-item-list .ui-state-highlight{height:80px;margin-bottom:15px}
+.ccm-ui .xw-item-list {
+  padding-bottom: 15px;
+  position: relative;
+  overflow-x: hidden;
+}
+.ccm-ui .xw-item-list fieldset {
+  margin-bottom: 10px !important;
+  padding-bottom: 10px !important;
+}
+.ccm-ui .xw-item-list .cke_editable {
+  padding: 5px 9px;
+}
+.ccm-ui .xw-item-list input[type=text], .ccm-ui .xw-item-list textarea {
+  display: block;
+  width: 100%;
+}
+
+.ui-dialog.ui-widget div.floating-block-actions {
+  display: none;
+  width: 100%;
+  background: white;
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 17px;
+  padding: 15px 3.5% 15px 25px;
+  z-index: 150;
+  box-shadow: -9px -2px 50px -5px rgba(5, 5, 5, 0.1);
+  opacity: 0.9;
+}
+.ui-dialog.ui-widget div.floating-block-actions:hover {
+  opacity: 1;
+}
+.ui-dialog.ui-widget.has-floating-block-actions .ui-dialog-content.ui-widget-content {
+  margin-bottom: 70px;
+}
+.ui-dialog.ui-widget.has-floating-block-actions div.floating-block-actions {
+  display: block;
+}
+.ui-dialog.ui-widget.has-floating-block-actions .xw-item-list__items {
+  padding-bottom: 0;
+}
+
+.ccm-ui .xw-item-list .ui-pnotify-modal-overlay {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+.ccm-ui .xw-item-list .ccm-notification {
+  max-width: 100%;
+  top: 0;
+}
+.ccm-ui .xw-item-list .ccm-notification-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+.ccm-ui .xw-item-list .ui-pnotify-title {
+  font-size: 18px;
+}
+.ccm-ui .xw-item-list .ccm-notification-inner-buttons .btn-toolbar {
+  float: right;
+}
+.ccm-ui .xw-item-list .ccm-notification-inner-buttons .btn-toolbar .btn {
+  min-width: 40px;
+}
+.ccm-ui .xw-item-list__img-selector {
+  padding: 5px;
+  cursor: pointer;
+  background: #dedede;
+  border: 1px solid #cdcdcd;
+  text-align: center;
+  vertical-align: middle;
+  width: 72px;
+  height: 72px;
+  display: table-cell;
+}
+.ccm-ui .xw-item-list__img-selector img {
+  max-width: 100%;
+}
+.ccm-ui .xw-item-list__items {
+  padding-bottom: 30px;
+}
+.ccm-ui .xw-item-list__item {
+  position: relative;
+  padding: 0 15px;
+  margin-left: 0;
+  margin-right: 0;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+.ccm-ui .xw-item-list__item .drag-handle {
+  cursor: move !important;
+  padding: 2px 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 1px;
+  position: absolute;
+  background: #f8f8f8;
+  top: 0;
+  right: 0;
+}
+.ccm-ui .xw-item-list .panel-heading {
+  margin-left: -15px;
+  background: white;
+  border-bottom: 1px solid #e3e3e3;
+  color: #31708f;
+  border-bottom: 0;
+  padding: 10px 40px 10px 15px;
+  cursor: default;
+}
+.ccm-ui .xw-item-list .panel-heading label {
+  padding-top: 3px;
+}
+.ccm-ui .xw-item-list .panel-heading .drag-handle {
+  cursor: move !important;
+}
+.ccm-ui .xw-item-list .panel-heading .btn-delete-item i {
+  margin-top: 13px;
+}
+.ccm-ui .xw-item-list .panel-heading .btn-group-xs > .btn-delete-item {
+  position: initial;
+}
+.ccm-ui .xw-item-list .panel-body {
+  width: 100%;
+  padding: 10px 0;
+}
+.ccm-ui .xw-item-list .panel-body .form-group-sm {
+  margin-bottom: 15px;
+}
+.ccm-ui .xw-item-list .well {
+  padding: 0 15px;
+  margin-left: 0;
+  margin-right: 0;
+  background: #fff;
+}
+.ccm-ui .xw-item-list .btn-success {
+  margin-bottom: 20px;
+}
+.ccm-ui .xw-item-list .ui-state-highlight {
+  height: 80px;
+  margin-bottom: 15px;
+}
