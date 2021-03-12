@@ -85,7 +85,7 @@ public function on_start()
                 <div class="form-group">
                     <label class="control-label"><?= t('File') ?></label>                
                     <div class="xw-item-list__file-selector" data-concrete-file-input="<%=_.uniqueId('file-selector')%>">
-                      <concrete-file-input :file-id="<%-item.fID%>" choose-text="<?=t('Choose Image')?>" input-name="<?php echo $view->field('fID'); ?>[]"></concrete-file-input>
+                      <concrete-file-input :file-id="<%-item.fID ? item.fID : 0%>" choose-text="<?=t('Choose Image')?>" input-name="<?php echo $view->field('fID'); ?>[]"></concrete-file-input>
                     </div>                
                 </div>
                 
