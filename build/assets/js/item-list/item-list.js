@@ -9,7 +9,7 @@ export default class ItemList {
      * @param  {Object} options
      */
     constructor ($element, options = {}) {
-        const my = this, itemListDefaults = $.extend(defaults, window['xanweb'] || {})
+        const my = this, itemListDefaults = $.extend({}, defaults, window['xanweb'] || {})
         my.options = $.extend({
             classes: itemListDefaults.classes,
             maxItemsCount: itemListDefaults.maxItemsCount,
@@ -218,13 +218,16 @@ export default class ItemList {
     }
 
     initColorPickers ($item) {
-        const $colorPickers = $item.find('.'+this.options.colorPicker.className)
-        if ($colorPickers.length > 0) {
-            const my = this
-            $colorPickers.each(function() {
-                $(this).spectrum(my.options.colorPicker)
-            })
-        }
+        const colorPickerOptions = $.extend({}, this.options.colorPicker, this.options.i18n.colorPicker)
+        $item.find(`.${colorPickerOptions.className}`).each(function() {
+            const $this = $(this)
+            let options = colorPickerOptions
+            if ($this.data('options')) {
+                $.extend(true, options, $this.data('options'))
+            }
+
+            $this.spectrum(options)
+        })
     }
 
     destroyRichTextEditors ($container) {
