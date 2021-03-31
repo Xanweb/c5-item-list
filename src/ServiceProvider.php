@@ -3,8 +3,8 @@
 namespace Xanweb\ItemList;
 
 use Xanweb\ExtAsset\Asset\VendorAssetManager;
-use Xanweb\Foundation\Config\BeforeRenderDefaultAssetJS;
-use Xanweb\Foundation\JavascriptDefaultsServiceProvider;
+use Xanweb\C5\JsLocalization\Config\BeforeRenderDefaultAssetJS;
+use Xanweb\C5\JsLocalization\ServiceProvider as JavascriptDefaultsServiceProvider;
 
 class ServiceProvider extends JavascriptDefaultsServiceProvider
 {

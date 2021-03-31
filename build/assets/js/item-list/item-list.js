@@ -1,27 +1,6 @@
 /* global $, xanweb, _ */
-
-const defaults = {
-    i18n: {
-        confirm: 'Are you sure?',
-        maxItemsExceeded: 'Max items exceeded, you cannot add any more items.',
-        pageNotFound: 'Page not found'
-    },
-    editor: {
-        initRichTextEditor: editors => {},
-        destroyRichTextEditor: editor => {}
-    },
-    maxItemsCount: 100,
-    classes: {
-       wrapper: 'xw-item-list',
-       items: 'xw-item-list__items',
-       item: 'xw-item-list__item',
-       item_expander: 'xw-item-list__item-expander',
-       add_item_button: 'xw-item-list__add-item',
-       edit_item_button: 'xw-item-list__edit-item',
-       remove_item_button: 'xw-item-list__remove-item'
-    },
-    templateId: 'itemTemplate'
-}
+import defaults from './defaults'
+import {t} from '../translate'
 
 export default class ItemList {
     /**
@@ -31,14 +10,13 @@ export default class ItemList {
      * @param  {Object} options
      */
     constructor ($element, options = {}) {
-        const my = this, itemListDefaults = $.extend(defaults, window['xanweb'] || {})
+        const my = this, itemListDefaults = $.extend({}, defaults, window['xanweb'] || {})
         my.options = $.extend({
             classes: itemListDefaults.classes,
             maxItemsCount: itemListDefaults.maxItemsCount,
             templateId: itemListDefaults.templateId,
             destroyRichTextEditor: itemListDefaults.editor.destroyRichTextEditor,
             initRichTextEditor: itemListDefaults.editor.initRichTextEditor,
-            i18n: itemListDefaults.i18n,
             items: [],
             extraItemLoad: ($newItem, item) => {},
             itemDefaults: itemsCount => ({
@@ -82,6 +60,7 @@ export default class ItemList {
         const $newItem = my.$container.find(`.${this.options.classes.item}`).last()
         my.initPageSelectors($newItem)
         my.initFileSelectors($newItem)
+        my.initColorPickers($newItem)
         my.initRichTextEditors($newItem)
         my.detectCheckboxes($newItem)
         my.setupChoiceToggler($newItem)
@@ -109,7 +88,7 @@ export default class ItemList {
         my.$container.on('click', `.${my.options.classes.remove_item_button}`, function (e) {
             e.preventDefault()
             e.stopPropagation()
-            if (confirm(my.options.i18n.confirm)) {
+            if (confirm(t('confirm'))) {
                 $(this).closest(`.${my.options.classes.item}`).hide('fade', function () {
                     my.destroyRichTextEditors($(this))
                     $(this).remove()
@@ -124,7 +103,7 @@ export default class ItemList {
         my.$element.find(`.${my.options.classes.add_item_button}`).click(function () {
             const itemsCount = my.$container.find(`.${my.options.classes.item}`).length
             if (my.options.maxItemsCount > 0 && itemsCount >= my.options.maxItemsCount) {
-                alert(my.options.i18n.maxItemsExceeded)
+                alert(t('maxItemsExceeded'))
                 return false
             }
 
@@ -220,6 +199,29 @@ export default class ItemList {
                 inputName: $(this).data('name'),
                 fID: parseInt($(this).data('value'))
             })
+        })
+    }
+
+    initColorPickers ($item) {
+        const my = this
+        const colorPickerOptions = {
+            cancelText: t('colorPicker.cancelText'),
+            chooseText: t('colorPicker.chooseText'),
+            togglePaletteMoreText: t('colorPicker.togglePaletteMoreText'),
+            togglePaletteLessText: t('colorPicker.togglePaletteLessText'),
+            noColorSelectedText: t('colorPicker.noColorSelectedText'),
+            clearText: t('colorPicker.clearText'),
+            ...my.options.colorPicker
+        }
+
+        $item.find(`input.${colorPickerOptions.className}`).each(function () {
+            const $this = $(this)
+            let options = colorPickerOptions
+            if ($this.data('options')) {
+                $.extend(true, options, $this.data('options'))
+            }
+
+            $this.spectrum(options)
         })
     }
 

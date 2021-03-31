@@ -23,7 +23,7 @@ export default class Slider extends ItemList {
                     for (let fID of data.fID) {
                         const itemsCount = my.$container.find(`.${my.options.classes.item}`).length
                         if (my.options.maxItemsCount > 0 && itemsCount >= my.options.maxItemsCount) {
-                            alert(my.options.i18n.maxItemsExceeded)
+                            alert(t('maxItemsExceeded'))
                             break
                         }
 

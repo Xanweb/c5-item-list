@@ -27,9 +27,11 @@ public function on_start()
 
 ## Usage
 1. Load optional assets depending on your needs:
-    * Editor Assets (`$this->app['editor']->requireEditorAssets();`) if you need to use RichText Editor
-    * File Manager Asset Group (`core/file-manager`) in case you will use File Selectors in your list
-    * Sitemap Asset Group (`core/sitemap`) in case of using Page Selector in the list 
+   * Editor Assets (`$this->app['editor']->requireEditorAssets();`) if you need to use RichText Editor
+   * File Manager Asset Group (`core/file-manager`) in case you will use File Selectors in your list
+   * Sitemap Asset Group (`core/sitemap`) in case of using Page Selector in the list
+   * Color Picker Asset Group (`core/colorpicker`) in case of using Color Picker in the list
+
 2. Load required Item List Asset Group (`xw/item-list`)
 3. Setup Item List HTML structure
 ```HTML
@@ -88,7 +90,13 @@ public function on_start()
                     <label class="control-label"><?= t('File') ?></label>
                     <div data-field=file-selector data-name="<?= $view->field('fID') ?>[]" data-value="<%=item.fID%>"></div>
                 </div>
-                
+
+                <!-- Example of Color Picker field -->
+                <div class="form-group">
+                  <label class="control-label"><?= t('Title Color') ?></label>
+                  <input class="ccm-widget-colorpicker" type="text" name="<?= $view->field('titleColor') ?>[]" value="<%-item.titleColor%>" id="ccm-colorpicker-<%=_.uniqueId('title-color')%>" />
+                </div>
+
                 <!-- Example of Link Type auto switcher -->
                 <div style="min-height: 130px;">
                     <div class="form-group">
