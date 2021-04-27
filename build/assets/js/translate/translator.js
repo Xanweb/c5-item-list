@@ -25,6 +25,11 @@ export default class Translator {
         return _.isObject(texts) ? null : texts
     }
 
+    /**
+     * Get Translator instance.
+     *
+     * @return  {Translator}
+     */
     static instance() {
         return Translator._instance || (Translator._instance = new Translator())
     }

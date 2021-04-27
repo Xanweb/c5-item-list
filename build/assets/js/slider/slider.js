@@ -11,10 +11,16 @@ export default class Slider extends ItemList {
     constructor ($element, options = {}) {
         super($element, $.extend({fileFieldName: 'fID'}, options))
 
-        this.setupAddFilesButton()
+        this._setupAddFilesButton()
     }
 
-    setupAddFilesButton() {
+    /**
+     * Add Multiple Slides by Selecting images from File Manager.
+     *
+     * @return void
+     * @private
+     */
+    _setupAddFilesButton() {
         const my = this
         my.$element.find('.xw-add-images-btn').click(function () {
             ConcreteFileManager.launchDialog(

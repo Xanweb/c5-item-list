@@ -17,12 +17,15 @@ export default class ItemList {
             templateId: itemListDefaults.templateId,
             destroyRichTextEditor: itemListDefaults.editor.destroyRichTextEditor,
             initRichTextEditor: itemListDefaults.editor.initRichTextEditor,
+            colorPicker: itemListDefaults.colorPicker,
             items: [],
-            extraItemLoad: ($newItem, item) => {},
-            itemDefaults: itemsCount => ({
-                sortOrder: itemsCount
-            })
+            extraItemLoad: function($newItem, item) {},
+            itemDefaults: function(itemsCount){ return {sortOrder: itemsCount}}
         }, options)
+
+        // Make sure that the following methods works in Item List context.
+        my.options.extraItemLoad = my.options.extraItemLoad.bind(this)
+        my.options.itemDefaults = my.options.itemDefaults.bind(this)
 
         my.$element = $element.addClass(my.options.classes.wrapper)
         my.$container = $element.find(`.${my.options.classes.items}`)
@@ -216,7 +219,7 @@ export default class ItemList {
 
         $item.find(`input.${colorPickerOptions.className}`).each(function () {
             const $this = $(this)
-            let options = colorPickerOptions
+            let options = {...colorPickerOptions}
             if ($this.data('options')) {
                 $.extend(true, options, $this.data('options'))
             }
