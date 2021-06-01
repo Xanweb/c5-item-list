@@ -188,20 +188,33 @@ export default class ItemList {
     initPageSelectors ($item) {
         const my = this
         $item.find('div[data-field=page-selector]').each(function () {
-            $(this).concretePageSelector({
-                inputName: $(this).data('name'),
-                cID: parseInt($(this).data('value'))
-            })
+            const $this = $(this)
+            const options = {
+                inputName: $this.data('name'),
+                cID: parseInt($this.data('value'))
+            }
+
+            if (this.hasAttribute('data-choose-text')) {
+                options.chooseText = $this.data('chooseText')
+            }
+
+            $(this).concretePageSelector(options)
         })
     }
 
     initFileSelectors ($item) {
-        const my = this
         $item.find('div[data-field=file-selector]').each(function () {
-            $(this).concreteFileSelector({
-                inputName: $(this).data('name'),
-                fID: parseInt($(this).data('value'))
-            })
+            const $this = $(this)
+            const options = {
+                inputName: $this.data('name'),
+                fID: parseInt($this.data('value'))
+            }
+
+            if (this.hasAttribute('data-choose-text')) {
+                options.chooseText = $this.data('chooseText')
+            }
+
+            $(this).concreteFileSelector(options)
         })
     }
 
