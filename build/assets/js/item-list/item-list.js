@@ -11,7 +11,7 @@ export default class ItemList {
      */
     constructor ($element, options = {}) {
         const my = this, itemListDefaults = $.extend({}, defaults, window['xanweb'] || {})
-        my.options = $.extend({
+        my.options = $.extend(true, {
             classes: itemListDefaults.classes,
             maxItemsCount: itemListDefaults.maxItemsCount,
             templateId: itemListDefaults.templateId,
@@ -220,15 +220,7 @@ export default class ItemList {
 
     initColorPickers ($item) {
         const my = this
-        const colorPickerOptions = {
-            cancelText: t('colorPicker.cancelText'),
-            chooseText: t('colorPicker.chooseText'),
-            togglePaletteMoreText: t('colorPicker.togglePaletteMoreText'),
-            togglePaletteLessText: t('colorPicker.togglePaletteLessText'),
-            noColorSelectedText: t('colorPicker.noColorSelectedText'),
-            clearText: t('colorPicker.clearText'),
-            ...my.options.colorPicker
-        }
+        const colorPickerOptions = my.colorPickerOptions
 
         $item.find(`input.${colorPickerOptions.className}`).each(function () {
             const $this = $(this)
@@ -292,6 +284,24 @@ export default class ItemList {
     doSortCount () {
         this.$container.find(`.${this.options.classes.item}`).each(function (index) {
             $(this).find('.xw-item-entry-sort').val(index)
+        })
+    }
+
+    /**
+     * Get Translator instance.
+     *
+     * @return  {Object}
+     */
+    get colorPickerOptions()
+    {
+        return this._colorPickerOptions || (this._colorPickerOptions = {
+            cancelText: t('colorPicker.cancelText'),
+            chooseText: t('colorPicker.chooseText'),
+            togglePaletteMoreText: t('colorPicker.togglePaletteMoreText'),
+            togglePaletteLessText: t('colorPicker.togglePaletteLessText'),
+            noColorSelectedText: t('colorPicker.noColorSelectedText'),
+            clearText: t('colorPicker.clearText'),
+            ...this.options.colorPicker
         })
     }
 }
